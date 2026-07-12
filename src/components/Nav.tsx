@@ -33,9 +33,9 @@ export function Nav() {
     <>
       <motion.header
         className={`nav ${scrolled || open ? "scrolled" : ""}`}
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ y: -16 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="nav-inner">
           <a className="nav-brand" href="#top" onClick={() => setOpen(false)}>

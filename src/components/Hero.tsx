@@ -25,6 +25,8 @@ export function Hero() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (reduced) return
 
+    let failsafe = 0
+
     const ctx = gsap.context(() => {
       const highlights = root.querySelectorAll(".hero-highlight")
       const role = root.querySelector(".hero-role")
@@ -37,11 +39,12 @@ export function Hero() {
 
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } })
 
+      // Motion-only entrances — never start content at opacity 0 (avoids blank first paint)
       tl.from(
         flares,
         {
           scale: 0.4,
-          autoAlpha: 0,
+          opacity: 0,
           stagger: 0.12,
           duration: 1.1,
           ease: "back.out(1.8)",
@@ -52,66 +55,73 @@ export function Hero() {
           highlights,
           {
             y: 40,
-            autoAlpha: 0,
             scale: 0.94,
             stagger: 0.12,
             duration: 0.9,
             ease: "back.out(1.6)",
+            clearProps: "transform",
           },
-          0.2,
+          0.15,
         )
         .from(
           role,
           {
-            y: 36,
-            autoAlpha: 0,
-            scale: 0.96,
-            duration: 0.75,
+            y: 28,
+            duration: 0.7,
+            clearProps: "transform",
           },
-          0.35,
+          0.25,
         )
         .from(
           chars,
           {
-            yPercent: 120,
-            rotateX: -70,
-            autoAlpha: 0,
+            yPercent: 110,
+            rotateX: -55,
             stagger: 0.028,
-            duration: 0.95,
+            duration: 0.9,
             ease: "back.out(1.7)",
+            clearProps: "transform",
           },
-          0.45,
+          0.35,
         )
         .from(
           headline,
           {
-            y: 32,
-            autoAlpha: 0,
-            duration: 0.85,
+            y: 24,
+            duration: 0.75,
+            clearProps: "transform",
           },
-          0.7,
+          0.55,
         )
         .from(
           actions,
           {
-            y: 28,
-            autoAlpha: 0,
-            scale: 0.94,
-            stagger: 0.12,
-            duration: 0.8,
-            ease: "back.out(1.8)",
+            y: 22,
+            scale: 0.96,
+            stagger: 0.1,
+            duration: 0.75,
+            ease: "back.out(1.6)",
+            clearProps: "transform",
           },
-          0.85,
+          0.65,
         )
         .from(
           scroll,
           {
-            autoAlpha: 0,
-            y: 20,
-            duration: 0.7,
+            y: 16,
+            duration: 0.6,
+            clearProps: "transform",
           },
-          1,
+          0.8,
         )
+
+      // Failsafe: if anything stuck mid-tween, force content visible
+      failsafe = window.setTimeout(() => {
+        gsap.set([highlights, role, chars, headline, actions, scroll], {
+          autoAlpha: 1,
+          clearProps: "opacity,visibility",
+        })
+      }, 2200)
 
       gsap.to(chars, {
         backgroundPosition: "200% 50%",
@@ -153,7 +163,10 @@ export function Hero() {
       }
     }, root)
 
-    return () => ctx.revert()
+    return () => {
+      window.clearTimeout(failsafe)
+      ctx.revert()
+    }
   }, [])
 
   return (

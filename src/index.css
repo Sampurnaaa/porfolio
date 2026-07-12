@@ -464,6 +464,17 @@ button,
   padding: 1.5rem 0;
 }
 
+.hero-content,
+.hero-role,
+.hero-brand,
+.hero-headline,
+.hero-actions,
+.hero-highlight,
+.hero-scroll {
+  opacity: 1;
+  visibility: visible;
+}
+
 .hero-content::before {
   content: "";
   position: absolute;
