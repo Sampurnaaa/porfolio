@@ -17,13 +17,13 @@ export function Contact() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,
-        { autoAlpha: 0, y: 80, scale: 0.94, rotateX: 6 },
+        { autoAlpha: 0, y: 80, scale: 0.92, rotateX: 8 },
         {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           rotateX: 0,
-          duration: 1.2,
+          duration: 1.15,
           ease: "power4.out",
           scrollTrigger: {
             trigger: el,
@@ -33,6 +33,24 @@ export function Contact() {
           },
         },
       )
+
+      gsap.to(el, {
+        backgroundPosition: "200% 50%",
+        duration: 8,
+        ease: "none",
+        repeat: -1,
+        yoyo: true,
+      })
+
+      const links = el.querySelectorAll(".contact-links a")
+      gsap.to(links, {
+        y: -4,
+        duration: 2.2,
+        stagger: 0.25,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+      })
     }, panelRef)
 
     return () => ctx.revert()

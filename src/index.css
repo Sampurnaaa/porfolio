@@ -46,6 +46,156 @@ html.lenis body {
   will-change: transform;
 }
 
+/* Custom cursor trail */
+.has-cursor-trail,
+.has-cursor-trail * {
+  cursor: none !important;
+}
+
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  mix-blend-mode: multiply;
+}
+
+.cursor-dot-0 {
+  width: 14px;
+  height: 14px;
+  background: var(--teal);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.55);
+}
+
+.cursor-dot-1 {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--teal);
+  background: rgba(20, 184, 166, 0.08);
+}
+
+.cursor-dot-2,
+.cursor-dot-3,
+.cursor-dot-4,
+.cursor-dot-5 {
+  background: rgba(217, 119, 6, 0.35);
+}
+
+.cursor-dot-2 {
+  width: 10px;
+  height: 10px;
+}
+.cursor-dot-3 {
+  width: 8px;
+  height: 8px;
+}
+.cursor-dot-4 {
+  width: 6px;
+  height: 6px;
+}
+.cursor-dot-5 {
+  width: 4px;
+  height: 4px;
+}
+
+.cursor-trail.is-hover .cursor-dot-0 {
+  background: var(--amber);
+  box-shadow: 0 0 28px rgba(245, 158, 11, 0.65);
+}
+
+.cursor-trail.is-hover .cursor-dot-1 {
+  width: 52px;
+  height: 52px;
+  border-color: var(--amber);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+/* Floating orbs */
+.floating-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.35;
+  will-change: transform, opacity;
+}
+
+.orb-a {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.55), transparent 70%);
+}
+.orb-b {
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.4), transparent 70%);
+}
+.orb-c {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.45), transparent 70%);
+}
+.orb-d {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.35), transparent 70%);
+}
+.orb-e {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.35), transparent 70%);
+}
+
+/* Marquee */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.08), rgba(245, 158, 11, 0.08));
+  margin-bottom: 3.5rem;
+  padding: 0.9rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  will-change: transform;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding-inline: 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+
+.marquee-sep {
+  color: var(--teal-bright);
+  font-size: 0.75rem;
+}
+
 html {
   scroll-behavior: auto;
 }
@@ -405,21 +555,64 @@ button,
   letter-spacing: -0.045em;
   margin: 0 0 1.25rem;
   max-width: 14ch;
+  perspective: 800px;
 }
 
 .hero-brand .line {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.08em;
 }
 
-.hero-brand .word {
+.hero-brand .char {
   display: inline-block;
-  background: linear-gradient(120deg, var(--ink) 25%, var(--teal) 50%, var(--ink) 75%);
-  background-size: 200% 200%;
+  overflow: hidden;
+  perspective: 600px;
+}
+
+.hero-brand .char-inner {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  color: var(--ink);
+  background: linear-gradient(120deg, var(--ink) 20%, var(--teal) 45%, var(--amber) 55%, var(--ink) 80%);
+  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  animation: shimmerText 6s ease-in-out infinite;
+  -webkit-text-fill-color: transparent;
+  will-change: transform, opacity, background-position;
+}
+
+.hero-flare {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.flare-a {
+  width: min(42vw, 380px);
+  height: min(42vw, 380px);
+  top: 8%;
+  right: 4%;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.55), transparent 68%);
+}
+
+.flare-b {
+  width: min(36vw, 300px);
+  height: min(36vw, 300px);
+  bottom: 18%;
+  left: 6%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.45), transparent 68%);
+}
+
+.flare-c {
+  width: min(28vw, 240px);
+  height: min(28vw, 240px);
+  top: 42%;
+  left: 48%;
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.35), transparent 68%);
 }
 
 .hero-role {
@@ -699,10 +892,9 @@ button,
 }
 
 .domain-item:hover {
-  background: rgba(255, 255, 255, 0.55);
-  padding-left: 1.4rem;
-  transform: translateX(4px);
-  box-shadow: inset 0 0 0 1px rgba(20, 184, 166, 0.08);
+  background: rgba(255, 255, 255, 0.65);
+  padding-left: 1.65rem;
+  box-shadow: inset 0 0 0 1px rgba(20, 184, 166, 0.12);
   animation-play-state: paused;
 }
 
@@ -855,7 +1047,11 @@ button,
   .float-soft,
   .pulse-glow,
   .breathe,
-  .hero-brand .word,
+  .hero-brand .char-inner,
+  .hero-flare,
+  .marquee-track,
+  .floating-orbs,
+  .cursor-trail,
   .hero-highlight,
   .stat,
   .skill-tag,
@@ -989,6 +1185,10 @@ button,
 }
 
 /* Experience */
+.timeline-wrap {
+  position: relative;
+}
+
 .timeline {
   display: grid;
   gap: 0;
@@ -1002,14 +1202,30 @@ button,
   top: 0.4rem;
   bottom: 0.4rem;
   width: 2px;
-  background: linear-gradient(180deg, var(--teal-bright), var(--amber-soft), transparent);
+  background: rgba(20, 184, 166, 0.18);
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 0.55rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--teal-bright), var(--amber-soft), var(--teal));
+  transform-origin: top center;
+  transform: scaleY(0);
+  z-index: 1;
+  box-shadow: 0 0 18px rgba(20, 184, 166, 0.45);
+  pointer-events: none;
 }
 
 .exp-item {
   position: relative;
   padding: 0 0 2.75rem 2.5rem;
   border-radius: 0.75rem;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .exp-item:last-child {
@@ -1017,8 +1233,9 @@ button,
 }
 
 .exp-item:hover {
-  transform: translateX(8px);
-  background: linear-gradient(90deg, rgba(20, 184, 166, 0.06), transparent 70%);
+  transform: translateX(14px) scale(1.01);
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.1), transparent 75%);
+  box-shadow: -6px 0 0 var(--teal-bright);
 }
 
 .exp-item:hover .exp-dot {
@@ -1108,17 +1325,21 @@ button,
 }
 
 .skill-block {
-  padding-bottom: 1.25rem;
+  padding: 0.75rem 0.85rem 1.25rem;
+  margin: 0 -0.85rem;
   border-bottom: 1px solid var(--line);
-  transition: transform 0.3s ease;
+  border-radius: 0.75rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
 }
 
 .skill-block:hover {
-  transform: translateY(-2px);
+  transform: translateX(10px);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08), transparent 65%);
 }
 
 .skill-block:hover h3 {
   color: var(--teal);
+  letter-spacing: -0.01em;
 }
 
 .skill-block h3 {
@@ -1170,6 +1391,7 @@ button,
 .project-list {
   display: grid;
   gap: 0;
+  perspective: 1200px;
 }
 
 .project {
@@ -1179,10 +1401,11 @@ button,
   padding: 2rem 0;
   border-top: 1px solid var(--line);
   align-items: start;
-  transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease,
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
   cursor: default;
   border-radius: 0.5rem;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .project:last-child {
@@ -1190,8 +1413,8 @@ button,
 }
 
 .project:hover {
-  padding-left: 0.85rem;
-  background: linear-gradient(90deg, rgba(20, 184, 166, 0.07), transparent 65%);
+  padding-left: 1.1rem;
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.1), transparent 70%);
 }
 
 .project:hover h3 {
@@ -1200,7 +1423,6 @@ button,
 
 .project:hover .project-metric {
   animation-play-state: paused;
-  transform: scale(1.08);
   color: var(--amber-soft);
 }
 

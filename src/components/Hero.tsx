@@ -1,8 +1,19 @@
 import { useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { profile } from "../data/content"
 import { NeuralField } from "./NeuralField"
 import { Magnetic } from "./Magnetic"
+
+gsap.registerPlugin(ScrollTrigger)
+
+function splitChars(text: string) {
+  return text.split("").map((ch, i) => (
+    <span className="char" key={`${ch}-${i}`}>
+      <span className="char-inner">{ch === " " ? "\u00A0" : ch}</span>
+    </span>
+  ))
+}
 
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null)
@@ -12,87 +23,134 @@ export function Hero() {
     if (!root) return
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduced) {
-      gsap.set(root.querySelectorAll(".hero-anim"), { clearProps: "all", autoAlpha: 1, y: 0 })
-      return
-    }
+    if (reduced) return
 
     const ctx = gsap.context(() => {
       const highlights = root.querySelectorAll(".hero-highlight")
       const role = root.querySelector(".hero-role")
-      const words = root.querySelectorAll(".hero-brand .word")
+      const chars = root.querySelectorAll(".char-inner")
       const headline = root.querySelector(".hero-headline")
       const actions = root.querySelectorAll(".hero-actions a")
       const scroll = root.querySelector(".hero-scroll")
-
-      gsap.set([highlights, role, headline, actions, scroll], { autoAlpha: 0, y: 28 })
-      gsap.set(words, { yPercent: 115, rotate: 2 })
+      const flares = root.querySelectorAll(".hero-flare")
+      const content = root.querySelector(".hero-content")
 
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } })
 
-      tl.to(highlights, {
-        y: 0,
-        autoAlpha: 1,
-        scale: 1,
-        stagger: 0.1,
-        duration: 0.85,
-      })
-        .to(
+      tl.from(
+        flares,
+        {
+          scale: 0.4,
+          autoAlpha: 0,
+          stagger: 0.12,
+          duration: 1.1,
+          ease: "back.out(1.8)",
+        },
+        0,
+      )
+        .from(
+          highlights,
+          {
+            y: 40,
+            autoAlpha: 0,
+            scale: 0.94,
+            stagger: 0.12,
+            duration: 0.9,
+            ease: "back.out(1.6)",
+          },
+          0.2,
+        )
+        .from(
           role,
           {
-            y: 0,
-            autoAlpha: 1,
-            duration: 0.7,
+            y: 36,
+            autoAlpha: 0,
+            scale: 0.96,
+            duration: 0.75,
           },
-          "-=0.45",
+          0.35,
         )
-        .to(
-          words,
+        .from(
+          chars,
           {
-            yPercent: 0,
-            rotate: 0,
-            stagger: 0.12,
-            duration: 1.15,
+            yPercent: 120,
+            rotateX: -70,
+            autoAlpha: 0,
+            stagger: 0.028,
+            duration: 0.95,
+            ease: "back.out(1.7)",
           },
-          "-=0.35",
+          0.45,
         )
-        .to(
+        .from(
           headline,
           {
-            y: 0,
-            autoAlpha: 1,
-            duration: 0.8,
+            y: 32,
+            autoAlpha: 0,
+            duration: 0.85,
           },
-          "-=0.55",
+          0.7,
         )
-        .to(
+        .from(
           actions,
           {
-            y: 0,
-            autoAlpha: 1,
-            stagger: 0.1,
-            duration: 0.7,
+            y: 28,
+            autoAlpha: 0,
+            scale: 0.94,
+            stagger: 0.12,
+            duration: 0.8,
+            ease: "back.out(1.8)",
           },
-          "-=0.45",
+          0.85,
         )
-        .to(
+        .from(
           scroll,
           {
-            autoAlpha: 1,
-            y: 0,
+            autoAlpha: 0,
+            y: 20,
             duration: 0.7,
           },
-          "-=0.3",
+          1,
         )
 
-      gsap.to(words, {
+      gsap.to(chars, {
         backgroundPosition: "200% 50%",
-        duration: 5,
+        duration: 4.5,
         ease: "none",
         repeat: -1,
         yoyo: true,
-        delay: 1.5,
+        delay: 1.8,
+        stagger: { each: 0.04, repeat: -1, yoyo: true },
       })
+
+      gsap.to(flares, {
+        x: "random(-40, 40)",
+        y: "random(-30, 30)",
+        scale: "random(0.85, 1.2)",
+        duration: 4,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+        stagger: 0.4,
+      })
+
+      if (content) {
+        gsap.fromTo(
+          content,
+          { y: 0 },
+          {
+            y: 80,
+            ease: "none",
+            scrollTrigger: {
+              trigger: root,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        )
+      }
     }, root)
 
     return () => ctx.revert()
@@ -101,6 +159,9 @@ export function Hero() {
   return (
     <section className="hero" id="top" ref={rootRef}>
       <NeuralField />
+      <span className="hero-flare flare-a" aria-hidden="true" />
+      <span className="hero-flare flare-b" aria-hidden="true" />
+      <span className="hero-flare flare-c" aria-hidden="true" />
 
       <div className="hero-content">
         <div className="hero-highlights">
@@ -119,23 +180,19 @@ export function Hero() {
         <p className="hero-role hero-anim">{profile.role}</p>
 
         <h1 className="hero-brand" aria-label={profile.name}>
-          <span className="line">
-            <span className="word">Sampurna</span>
-          </span>
-          <span className="line">
-            <span className="word">Mandal</span>
-          </span>
+          <span className="line">{splitChars("Sampurna")}</span>
+          <span className="line">{splitChars("Mandal")}</span>
         </h1>
 
         <p className="hero-headline hero-anim">{profile.headline}</p>
 
         <div className="hero-actions">
-          <Magnetic strength={0.4}>
+          <Magnetic strength={0.55}>
             <a className="btn-primary hero-anim" href="#contact">
               Get in touch
             </a>
           </Magnetic>
-          <Magnetic strength={0.35}>
+          <Magnetic strength={0.5}>
             <a className="btn-ghost hero-anim" href={profile.linkedin} target="_blank" rel="noreferrer">
               View LinkedIn
             </a>

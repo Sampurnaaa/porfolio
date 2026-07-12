@@ -17,7 +17,7 @@ type MagneticProps = {
 export function Magnetic({
   children,
   className,
-  strength = 0.35,
+  strength = 0.55,
   as = "div",
   ...rest
 }: MagneticProps) {
@@ -31,8 +31,9 @@ export function Magnetic({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     if (window.matchMedia("(pointer: coarse)").matches) return
 
-    const xTo = gsap.quickTo(inner, "x", { duration: 0.45, ease: "power3.out" })
-    const yTo = gsap.quickTo(inner, "y", { duration: 0.45, ease: "power3.out" })
+    const xTo = gsap.quickTo(inner, "x", { duration: 0.35, ease: "power3.out" })
+    const yTo = gsap.quickTo(inner, "y", { duration: 0.35, ease: "power3.out" })
+    const scaleTo = gsap.quickTo(inner, "scale", { duration: 0.35, ease: "power3.out" })
 
     const onMove = (e: PointerEvent) => {
       const rect = root.getBoundingClientRect()
@@ -40,11 +41,13 @@ export function Magnetic({
       const relY = e.clientY - rect.top - rect.height / 2
       xTo(relX * strength)
       yTo(relY * strength)
+      scaleTo(1.06)
     }
 
     const onLeave = () => {
       xTo(0)
       yTo(0)
+      scaleTo(1)
     }
 
     root.addEventListener("pointermove", onMove)

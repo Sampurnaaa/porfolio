@@ -10,11 +10,16 @@ export function useLenis() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (reduced) return
 
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual"
+    }
+
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.4,
+      autoRaf: false,
     })
 
     lenis.on("scroll", ScrollTrigger.update)
@@ -25,7 +30,12 @@ export function useLenis() {
     gsap.ticker.add(tick)
     gsap.ticker.lagSmoothing(0)
 
-    document.documentElement.classList.add("lenis")
+    document.documentElement.classList.add("lenis", "lenis-smooth")
+
+    lenis.scrollTo(0, { immediate: true })
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh()
+    })
 
     const onClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement | null)?.closest(
@@ -47,7 +57,7 @@ export function useLenis() {
       document.removeEventListener("click", onClick)
       gsap.ticker.remove(tick)
       lenis.destroy()
-      document.documentElement.classList.remove("lenis")
+      document.documentElement.classList.remove("lenis", "lenis-smooth")
       ScrollTrigger.getAll().forEach((t) => t.kill())
     }
   }, [])

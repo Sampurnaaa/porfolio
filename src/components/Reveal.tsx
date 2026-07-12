@@ -11,43 +11,66 @@ type RevealProps = {
   y?: number
 }
 
-export function Reveal({ children, className, delay = 0, y = 56 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, y = 90 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduced) return
-
+    const inner = el.querySelector<HTMLElement>(".reveal-inner")
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,
-        { autoAlpha: 0, y, filter: "blur(8px)" },
+        {
+          autoAlpha: 0,
+          y,
+          scale: 0.92,
+          rotateX: 10,
+        },
         {
           autoAlpha: 1,
           y: 0,
-          filter: "blur(0px)",
-          duration: 1.05,
+          scale: 1,
+          rotateX: 0,
+          duration: 1.1,
           delay,
           ease: "power4.out",
+          clearProps: "filter",
           scrollTrigger: {
             trigger: el,
-            start: "top 88%",
+            start: "top 92%",
             toggleActions: "restart none restart reverse",
             invalidateOnRefresh: true,
           },
         },
       )
+
+      if (inner) {
+        gsap.fromTo(
+          inner,
+          { y: 24 },
+          {
+            y: -24,
+            ease: "none",
+            scrollTrigger: {
+              trigger: el,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.2,
+            },
+          },
+        )
+      }
     }, ref)
 
     return () => ctx.revert()
   }, [delay, y])
 
   return (
-    <div ref={ref} className={className}>
-      {children}
+    <div ref={ref} className={className} style={{ transformStyle: "preserve-3d" }}>
+      <div className="reveal-inner">{children}</div>
     </div>
   )
 }
@@ -63,7 +86,7 @@ type StaggerProps = {
 export function Stagger({
   children,
   className,
-  stagger = 0.1,
+  stagger = 0.07,
   selector = ":scope > *",
   as: Tag = "div",
 }: StaggerProps) {
@@ -72,9 +95,7 @@ export function Stagger({
   useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduced) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     const items = el.querySelectorAll(selector)
     if (!items.length) return
@@ -82,18 +103,29 @@ export function Stagger({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         items,
-        { autoAlpha: 0, y: 48, rotateX: 8 },
+        {
+          autoAlpha: 0,
+          y: 70,
+          x: -18,
+          scale: 0.9,
+          rotateY: -14,
+        },
         {
           autoAlpha: 1,
           y: 0,
-          rotateX: 0,
+          x: 0,
+          scale: 1,
+          rotateY: 0,
           duration: 0.95,
-          stagger,
-          ease: "power3.out",
-          transformOrigin: "center top",
+          stagger: {
+            each: stagger,
+            from: "start",
+          },
+          ease: "back.out(1.5)",
+          transformOrigin: "left center",
           scrollTrigger: {
             trigger: el,
-            start: "top 85%",
+            start: "top 90%",
             toggleActions: "restart none restart reverse",
             invalidateOnRefresh: true,
           },
@@ -105,11 +137,10 @@ export function Stagger({
   }, [selector, stagger])
 
   return (
-    <Tag ref={ref} className={className} style={{ perspective: 900 }}>
+    <Tag ref={ref} className={className} style={{ perspective: 1400 }}>
       {children}
     </Tag>
   )
 }
 
-/** Kept for API compatibility — GSAP Stagger now drives motion. */
 export const fadeUp = {}

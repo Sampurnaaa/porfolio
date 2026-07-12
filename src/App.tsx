@@ -8,12 +8,16 @@ import { Skills } from "./components/Skills"
 import { Projects } from "./components/Projects"
 import { More } from "./components/More"
 import { Contact } from "./components/Contact"
+import { CursorTrail } from "./components/CursorTrail"
+import { FloatingOrbs } from "./components/FloatingOrbs"
 
 export default function App() {
   useLenis()
 
   return (
     <>
+      <CursorTrail />
+      <FloatingOrbs />
       <Nav />
       <main>
         <Hero />

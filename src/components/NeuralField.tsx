@@ -33,13 +33,13 @@ export function NeuralField() {
       canvas.height = Math.floor(h * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      const count = Math.max(34, Math.floor((w * h) / 24000))
+      const count = Math.max(52, Math.floor((w * h) / 16000))
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: 1.2 + Math.random() * 2.4,
+        vx: (Math.random() - 0.5) * 0.75,
+        vy: (Math.random() - 0.5) * 0.75,
+        r: 1.4 + Math.random() * 2.8,
       }))
     }
 
@@ -69,10 +69,10 @@ export function NeuralField() {
           const dx = n.x - mouse.x
           const dy = n.y - mouse.y
           const dist = Math.hypot(dx, dy)
-          if (dist < 140 && dist > 0.1) {
-            const force = (140 - dist) / 140
-            n.vx += (dx / dist) * force * 0.12
-            n.vy += (dy / dist) * force * 0.12
+          if (dist < 180 && dist > 0.1) {
+            const force = (180 - dist) / 180
+            n.vx += (dx / dist) * force * 0.22
+            n.vy += (dy / dist) * force * 0.22
           }
 
           n.vx *= 0.99
@@ -86,7 +86,7 @@ export function NeuralField() {
         }
       }
 
-      const linkDist = Math.min(170, w * 0.2)
+      const linkDist = Math.min(210, w * 0.24)
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i]
