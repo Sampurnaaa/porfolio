@@ -5,7 +5,8 @@ Fully animated personal portfolio for **Sampurna Mandal** (ML / AI Engineer | Da
 ## Stack
 
 - React + TypeScript + Vite
-- Framer Motion (scroll reveals, hero entrance, hover motion)
+- **GSAP** + ScrollTrigger — scroll reveals, hero timelines, magnetic hover
+- **Lenis** — butter-smooth scrolling (Awwwards-style)
 - Canvas neural-field animation in the hero
 
 ## Develop
@@ -15,13 +16,15 @@ npm install
 npm run dev
 ```
 
-## Build
+## Deploy on Render
 
-```bash
-npm run build
-npm run preview
-```
+`render.yaml` is already in the repo. Fastest path:
 
-## Content
+1. Open [Render → New Static Site](https://dashboard.render.com/select-repo?type=static) and sign in (GitHub recommended).
+2. Connect **`Sampurnaaa/porfolio`**, branch **`master`**.
+3. Use:
+   - **Build Command:** `npm ci && npm run build`
+   - **Publish Directory:** `dist`
+4. Click **Create Static Site** — Render will give you a `*.onrender.com` URL.
 
-Resume content lives in `src/data/content.ts` — update that file to refresh copy across the site.
+Or deploy via Blueprint: [New Blueprint](https://dashboard.render.com/blueprints) → select this repo (uses `render.yaml`).

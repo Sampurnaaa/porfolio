@@ -1,6 +1,5 @@
-import { motion } from "framer-motion"
 import { achievements, education, leadership } from "../data/content"
-import { Reveal, Stagger, fadeUp } from "./Reveal"
+import { Reveal, Stagger } from "./Reveal"
 
 export function More() {
   return (
@@ -12,7 +11,7 @@ export function More() {
               <p className="section-label">Education</p>
               <h2 className="section-title">IIT Kharagpur</h2>
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal delay={0.08}>
               <div className="edu-degree">{education.degree}</div>
               <div className="edu-school">{education.school}</div>
               <div className="edu-period">{education.period}</div>
@@ -36,12 +35,12 @@ export function More() {
               <p className="section-label">Achievements</p>
               <h2 className="section-title">Recognition</h2>
             </Reveal>
-            <Stagger stagger={0.1}>
+            <Stagger stagger={0.1} selector=":scope > .achieve-item">
               {achievements.map((a) => (
-                <motion.div className="achieve-item" key={a.title} variants={fadeUp}>
+                <div className="achieve-item" key={a.title}>
                   <h3>{a.title}</h3>
                   <p>{a.detail}</p>
-                </motion.div>
+                </div>
               ))}
             </Stagger>
           </div>
@@ -52,12 +51,12 @@ export function More() {
             <p className="section-label">Leadership</p>
             <h2 className="section-title">Building communities that last.</h2>
           </Reveal>
-          <Stagger stagger={0.1}>
+          <Stagger stagger={0.1} selector=":scope > .lead-item">
             {leadership.map((l) => (
-              <motion.div className="lead-item" key={l.title} variants={fadeUp}>
+              <div className="lead-item" key={l.title}>
                 <h3>{l.title}</h3>
                 <p>{l.detail}</p>
-              </motion.div>
+              </div>
             ))}
           </Stagger>
         </div>

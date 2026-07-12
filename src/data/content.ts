@@ -16,39 +16,46 @@ export const profile = {
     "ML Engineer",
     "AI Engineer",
     "GenAI Engineer",
+    "Forward Deployed Engineer",
   ],
 }
 
 export const domains = [
   {
+    name: "Forward Deployed",
+    detail:
+      "Business × Tech × AI — embed with teams, ship production systems, and close the loop from problem to platform",
+    accent: "teal",
+  },
+  {
+    name: "Business",
+    detail: "Finance, pharma, and marketing contexts — outcomes measured in automation, ROI, and research speed",
+    accent: "amber",
+  },
+  {
+    name: "Tech",
+    detail: "Kubernetes, Snowflake, FastAPI, vector DBs, and enterprise data platforms at BlackRock scale",
+    accent: "ink",
+  },
+  {
+    name: "AI",
+    detail: "GenAI, RAG, multi-agent LLMs, deep learning, and computer vision from research to production",
+    accent: "teal",
+  },
+  {
     name: "Finance",
     detail: "BlackRock · enterprise data platforms, onboarding automation, Snowflake & Milvus",
-    accent: "teal",
+    accent: "amber",
   },
   {
     name: "Medical",
     detail: "Dr. Reddy’s · multi-modal RAG, multi-agent LLMs, pharma research workflows",
-    accent: "amber",
+    accent: "ink",
   },
   {
     name: "ECE",
     detail: "IIT Kharagpur · Electronics & Electrical Communication Engineering foundation",
-    accent: "ink",
-  },
-  {
-    name: "AI / ML",
-    detail: "GenAI, RAG, deep learning, NLP, and production model systems",
     accent: "teal",
-  },
-  {
-    name: "Computer Vision",
-    detail: "M.Tech thesis · hyperspectral networks, ConvLSTM, Vision & Intelligent Systems",
-    accent: "amber",
-  },
-  {
-    name: "Marketing Analytics",
-    detail: "IIM Calcutta · attribution, pricing elasticity, customer segmentation",
-    accent: "ink",
   },
 ]
 

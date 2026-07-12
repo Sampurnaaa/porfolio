@@ -1,6 +1,5 @@
-import { motion } from "framer-motion"
 import { projects } from "../data/content"
-import { Reveal, Stagger, fadeUp } from "./Reveal"
+import { Reveal, Stagger } from "./Reveal"
 
 export function Projects() {
   return (
@@ -15,15 +14,9 @@ export function Projects() {
           </p>
         </Reveal>
 
-        <Stagger className="project-list" stagger={0.12}>
+        <Stagger className="project-list" stagger={0.14} selector=":scope > article">
           {projects.map((p) => (
-            <motion.article
-              className="project"
-              key={p.title}
-              variants={fadeUp}
-              whileHover={{ x: 6 }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-            >
+            <article className="project" key={p.title}>
               <div>
                 <div className="project-tag">{p.tag}</div>
                 <h3>{p.title}</h3>
@@ -31,7 +24,7 @@ export function Projects() {
                 <p>{p.description}</p>
               </div>
               <div className="project-metric">{p.metric}</div>
-            </motion.article>
+            </article>
           ))}
         </Stagger>
       </div>

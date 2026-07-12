@@ -1,6 +1,5 @@
-import { motion } from "framer-motion"
 import { skills } from "../data/content"
-import { Reveal, Stagger, fadeUp } from "./Reveal"
+import { Reveal, Stagger } from "./Reveal"
 
 export function Skills() {
   return (
@@ -15,9 +14,9 @@ export function Skills() {
           </p>
         </Reveal>
 
-        <Stagger className="skills-grid" stagger={0.08}>
+        <Stagger className="skills-grid" stagger={0.1} selector=":scope > .skill-block">
           {skills.map((group) => (
-            <motion.div className="skill-block" key={group.title} variants={fadeUp}>
+            <div className="skill-block" key={group.title}>
               <h3>{group.title}</h3>
               <div className="skill-tags">
                 {group.items.map((item) => (
@@ -26,7 +25,7 @@ export function Skills() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </Stagger>
       </div>

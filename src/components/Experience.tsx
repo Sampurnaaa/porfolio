@@ -1,6 +1,5 @@
-import { motion } from "framer-motion"
 import { experience } from "../data/content"
-import { Reveal, Stagger, fadeUp } from "./Reveal"
+import { Reveal, Stagger } from "./Reveal"
 
 export function Experience() {
   return (
@@ -15,9 +14,9 @@ export function Experience() {
           </p>
         </Reveal>
 
-        <Stagger className="timeline" stagger={0.15}>
+        <Stagger className="timeline" stagger={0.14} selector=":scope > article">
           {experience.map((job) => (
-            <motion.article className="exp-item" key={`${job.company}-${job.role}`} variants={fadeUp}>
+            <article className="exp-item" key={`${job.company}-${job.role}`}>
               <div className="exp-dot" aria-hidden="true" />
               <div className="exp-meta">
                 <h3 className="exp-role">{job.role}</h3>
@@ -31,7 +30,7 @@ export function Experience() {
                   <li key={h.slice(0, 48)}>{h}</li>
                 ))}
               </ul>
-            </motion.article>
+            </article>
           ))}
         </Stagger>
       </div>

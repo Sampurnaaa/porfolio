@@ -1,3 +1,4 @@
+import { useLenis } from "./hooks/useLenis"
 import { Nav } from "./components/Nav"
 import { Hero } from "./components/Hero"
 import { About } from "./components/About"
@@ -9,6 +10,8 @@ import { More } from "./components/More"
 import { Contact } from "./components/Contact"
 
 export default function App() {
+  useLenis()
+
   return (
     <>
       <Nav />

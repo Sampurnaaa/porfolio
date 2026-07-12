@@ -1,98 +1,152 @@
-import { motion } from "framer-motion"
+import { useLayoutEffect, useRef } from "react"
+import gsap from "gsap"
 import { profile } from "../data/content"
 import { NeuralField } from "./NeuralField"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { Magnetic } from "./Magnetic"
 
 export function Hero() {
+  const rootRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduced) {
+      gsap.set(root.querySelectorAll(".hero-anim"), { clearProps: "all", autoAlpha: 1, y: 0 })
+      return
+    }
+
+    const ctx = gsap.context(() => {
+      const highlights = root.querySelectorAll(".hero-highlight")
+      const role = root.querySelector(".hero-role")
+      const words = root.querySelectorAll(".hero-brand .word")
+      const headline = root.querySelector(".hero-headline")
+      const actions = root.querySelectorAll(".hero-actions a")
+      const scroll = root.querySelector(".hero-scroll")
+
+      gsap.set([highlights, role, headline, actions, scroll], { autoAlpha: 0, y: 28 })
+      gsap.set(words, { yPercent: 115, rotate: 2 })
+
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } })
+
+      tl.to(highlights, {
+        y: 0,
+        autoAlpha: 1,
+        scale: 1,
+        stagger: 0.1,
+        duration: 0.85,
+      })
+        .to(
+          role,
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.7,
+          },
+          "-=0.45",
+        )
+        .to(
+          words,
+          {
+            yPercent: 0,
+            rotate: 0,
+            stagger: 0.12,
+            duration: 1.15,
+          },
+          "-=0.35",
+        )
+        .to(
+          headline,
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+          },
+          "-=0.55",
+        )
+        .to(
+          actions,
+          {
+            y: 0,
+            autoAlpha: 1,
+            stagger: 0.1,
+            duration: 0.7,
+          },
+          "-=0.45",
+        )
+        .to(
+          scroll,
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+          },
+          "-=0.3",
+        )
+
+      gsap.to(words, {
+        backgroundPosition: "200% 50%",
+        duration: 5,
+        ease: "none",
+        repeat: -1,
+        yoyo: true,
+        delay: 1.5,
+      })
+    }, root)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="top" ref={rootRef}>
       <NeuralField />
 
       <div className="hero-content">
-        <motion.div
-          className="hero-highlights"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.08, ease }}
-        >
-          <a className="hero-highlight college" href="#more">
+        <div className="hero-highlights">
+          <a className="hero-highlight college hero-anim" href="#more">
             <span className="highlight-label">College</span>
             <span className="highlight-value">{profile.college}</span>
           </a>
-          <a className="hero-highlight company" href="#experience">
+          <a className="hero-highlight company hero-anim" href="#experience">
             <span className="highlight-label">Now</span>
             <span className="highlight-value">
               {profile.companyRole} · {profile.company}
             </span>
           </a>
-        </motion.div>
+        </div>
 
-        <motion.p
-          className="hero-role"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.18, ease }}
-        >
-          {profile.role}
-        </motion.p>
+        <p className="hero-role hero-anim">{profile.role}</p>
 
         <h1 className="hero-brand" aria-label={profile.name}>
           <span className="line">
-            <motion.span
-              className="word"
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.9, delay: 0.22, ease }}
-            >
-              Sampurna
-            </motion.span>
+            <span className="word">Sampurna</span>
           </span>
           <span className="line">
-            <motion.span
-              className="word"
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.9, delay: 0.37, ease }}
-            >
-              Mandal
-            </motion.span>
+            <span className="word">Mandal</span>
           </span>
         </h1>
 
-        <motion.p
-          className="hero-headline"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.55, ease }}
-        >
-          {profile.headline}
-        </motion.p>
+        <p className="hero-headline hero-anim">{profile.headline}</p>
 
-        <motion.div
-          className="hero-actions"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.7, ease }}
-        >
-          <a className="btn-primary" href="#contact">
-            Get in touch
-          </a>
-          <a className="btn-ghost" href={profile.linkedin} target="_blank" rel="noreferrer">
-            View LinkedIn
-          </a>
-        </motion.div>
+        <div className="hero-actions">
+          <Magnetic strength={0.4}>
+            <a className="btn-primary hero-anim" href="#contact">
+              Get in touch
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.35}>
+            <a className="btn-ghost hero-anim" href={profile.linkedin} target="_blank" rel="noreferrer">
+              View LinkedIn
+            </a>
+          </Magnetic>
+        </div>
       </div>
 
-      <motion.div
-        className="hero-scroll"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.8 }}
-      >
+      <div className="hero-scroll hero-anim">
         <span>Scroll</span>
         <div className="hero-scroll-line" />
-      </motion.div>
+      </div>
     </section>
   )
 }
