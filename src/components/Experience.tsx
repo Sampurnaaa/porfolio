@@ -41,11 +41,12 @@ export function Experience() {
     <section className="section" id="experience" ref={sectionRef}>
       <div className="container">
         <Reveal>
-          <p className="section-label">Experience</p>
+          <p className="section-label">Experience & Internships</p>
           <h2 className="section-title">Where systems ship at scale.</h2>
           <p className="section-lead">
-            From BlackRock’s multi-tenant data platforms to multi-agent GenAI at Dr. Reddy’s —
-            production impact across infrastructure and applied ML.
+            From BlackRock’s multi-tenant data platforms and GenAI at Dr. Reddy’s to research
+            internships at UPES and IIM Calcutta — production impact across infrastructure and
+            applied ML.
           </p>
         </Reveal>
 

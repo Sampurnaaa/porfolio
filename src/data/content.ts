@@ -1,6 +1,6 @@
 export const profile = {
   name: "Sampurna Mandal",
-  role: "ML / AI Engineer | Data Engineer",
+  role: "ML / AI Engineer | Data Engineer | Forward Deployed Engineer",
   email: "sampurnamandal04@gmail.com",
   phones: ["+91 76040 46101", "+91 82820 44405"],
   linkedin: "https://www.linkedin.com/in/sampurna-mandal-/",
@@ -49,7 +49,7 @@ export const domains = [
   },
   {
     name: "Medical",
-    detail: "Dr. Reddy’s · multi-modal RAG, multi-agent LLMs, pharma research workflows",
+    detail: "Dr. Reddy’s · GenAI/RAG · UPES IoT Lab · hospital readmission ML on clinical data",
     accent: "ink",
   },
   {
@@ -165,6 +165,17 @@ export const experience = [
   },
   {
     role: "Research Intern",
+    company: "UPES · IoT Lab",
+    location: "Dehradun, India",
+    period: "May 2023 – Jul 2023",
+    highlights: [
+      "Hospital Readmission Prediction Analytics — ML classification on a 100,000-record clinical dataset.",
+      "Preprocessed data with missing value imputation, feature encoding, scaling, and outlier detection.",
+      "Evaluated Logistic Regression, KNN, Random Forest, and XGBoost; selected XGBoost (accuracy 0.81, F1-score 0.68) after hyperparameter tuning, precision-recall tradeoff analysis, and full ROC-AUC benchmarking.",
+    ],
+  },
+  {
+    role: "Research Intern",
     company: "IIM Calcutta",
     location: "Kolkata, India",
     period: "May 2023 – Jun 2023",
@@ -182,14 +193,6 @@ export const projects = [
     description:
       "Designed SeMN and SaMN modules using 1-D CNNs and PCA for spectral-spatial feature extraction on the Indian Pines hyperspectral dataset (200 bands, 145×145px). Fine-tuned ConvLSTM for spatio-temporal modelling, achieving 82.4% classification accuracy — surpassing SOTA baselines by 5% with improved small-object edge preservation across 16 land-cover classes.",
     metric: "82.4% accuracy",
-  },
-  {
-    title: "Hospital Readmission Prediction Analytics",
-    tag: "ML Classification · Clinical Data",
-    org: "IoT Lab, UPES · 2023",
-    description:
-      "Preprocessed a 100,000-record clinical dataset with missing value imputation, feature encoding, scaling, and outlier detection. Evaluated Logistic Regression, KNN, Random Forest, and XGBoost; selected XGBoost (accuracy 0.81, F1-score 0.68) after hyperparameter tuning and full ROC-AUC benchmarking.",
-    metric: "0.81 accuracy",
   },
 ]
 
